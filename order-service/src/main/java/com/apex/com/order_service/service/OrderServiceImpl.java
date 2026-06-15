@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import com.apex.com.order_service.config.ServiceProperties;
 import com.apex.com.order_service.dto.OrderRequestDto;
 import com.apex.com.order_service.dto.UserDto;
 import com.apex.com.order_service.entities.Order;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderServiceImpl implements OrderService{
 
     private final OrderRepo orderRepo;
+    private final ServiceProperties serviceProperties;
     private final RestClient.Builder builder;
 
     @Override
@@ -30,8 +32,10 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order createOrder(String authHeader, OrderRequestDto orderRequestDto) {
         
+
+        String userServiceUrl = serviceProperties.getUser().getUrl();
         // call the User-Service to get the user information
-        RestClient client = builder.baseUrl("http://localhost:3000").build();
+        RestClient client = builder.baseUrl(userServiceUrl).build();
 
 
         UserDto user = client.get()
