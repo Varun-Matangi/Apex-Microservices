@@ -1,3 +1,12 @@
-export default async function getAllProducts(req,res,next) {
-    return res.status(200).json({"prodcutId":"05e96170-5575-4033-bb70-87fc6d3d804c","prodcutName":"Apple Mac Book"});
+import { addProduct, findProducts } from "../services/product.service.js";
+
+
+export async function getAllProducts(req,res,next) {
+    const products = await findProducts();
+    return res.status(200).json(products);
+}
+
+export async function createProduct(req,res,next) {
+    const product = await addProduct(req.body);
+    return res.status(201).json(product);
 }

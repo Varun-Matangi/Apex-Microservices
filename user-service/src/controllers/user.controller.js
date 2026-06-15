@@ -1,3 +1,16 @@
-export default async function getAllUsers(req,res,next) {
-    return res.status(200).json({"userId":"05e96170-5575-4033-bb70-87fc6d3d804c","userName":"John-Doe"});
+import { addUser, getUserById, getUsers } from "../services/user.service.js";
+
+export async function getAllUsers(req,res,next) {
+    const users = await getUsers();
+    return res.status(200).json(users);
+}
+
+export async function getUser(req,res,next){
+    const user = await getUserById(req.user.userId);
+    return res.status(200).json(user);
+}
+
+export async function createUser(req,res,next) {
+    const user = await addUser(req.body);
+    return res.status(200).json(user);
 }
